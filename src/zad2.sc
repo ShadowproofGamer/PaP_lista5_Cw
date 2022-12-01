@@ -15,17 +15,5 @@ val lfib = {
   Stream.cons(0, Stream.cons(1, lfibIn(0, 1)))
 }
 
-def lTree(n: Int): lBT[Int] = {
-  LNode(n, () => lTree(2 * n), () => lTree(2 * n + 1))
-}
-def bfs[T](ltree: lBT[T]): Stream[T] = {
-  def bfsIn(queue: List[lBT[T]]): Stream[T] = {
-    queue match {
-      case Nil => Stream.Empty
-      case LEmpty :: t => bfsIn(t)
-      case LNode(v, l, r) :: t => Stream.cons(v, bfsIn(t ++ List(l(), r())))
-    }
-  }
 
-  bfsIn(List(ltree))
-}
+println(lfib.take(15).toList)
