@@ -17,9 +17,3 @@ let lfib =
 ltake(15, lfib);;
 
 
-let rec lfib =
-    let rec lfibIn(p, n) =
-        LCons(p+n, function () -> (lfibIn(n, p+n))) in
-    LCons(0, function () ->(LCons(1, function () -> (lfibIn(0, 1)))));;
-
-ltake(15, lfib);;
