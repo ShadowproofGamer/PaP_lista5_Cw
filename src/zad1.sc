@@ -1,23 +1,19 @@
-sealed trait lBT[+A]
-case object LEmpty extends lBT[Nothing]
-case class LNode[+A](elem:A, left:()=>lBT[A], right:()=>lBT[A]) extends lBT[A]
-
-def lfrom(n:Int):Stream[Int] = {
+def lfrom(n:Int):LazyList[Int] = {
   n #:: lfrom(n + 1)
 }
 
 // Zad 1
-def lrepeat[T](n: Int, s: Stream[T]): Stream[T] = {
-  def lrep(n: Int, x: T, streamRest: () => Stream[T]): Stream[T] = {
-    if (n > 1) {
-      x #:: lrep(n - 1, x, streamRest)
+def lrepeat[T](n: Int, s: LazyList[T]): LazyList[T] = {
+  def lrep(i: Int, x: T, remaining: () => LazyList[T]): LazyList[T] = {
+    if (i > 1) {
+      x #:: lrep(i - 1, x, remaining)
     } else {
-      x #:: streamRest()
+      x #:: remaining()
     }
   }
 
   if (s.isEmpty) {
-    Stream.Empty
+    LazyList.empty
   } else {
     val x #:: xs = s
     lrep(n, x, () => lrepeat(n, xs))
